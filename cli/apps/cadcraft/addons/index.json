@@ -1,0 +1,19 @@
+{
+  "addons": [
+    "electrical",
+    "apparel",
+    "hvac",
+    "piping",
+    "pid",
+    "cabinet",
+    "windows",
+    "lighting",
+    "harness",
+    "regs",
+    "nesting",
+    "trusscraft",
+    "cabinetcraft",
+    "chip",
+    "carving",
+    "lightdesign", "pointcloud", "circuit", "chain"]
+}

@@ -1,0 +1,37 @@
+# The smoke test on every pull request and every change to main: the repo itself, then the packed package installed into an
+# empty folder (what `npx @getcadcraft/mcp` gets). Linux, Windows and macOS, Node 20, 22 and 24.
+name: Tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [20, 22, 24]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: npm test (the repo)
+        run: npm test
+      - name: Installed from the packed tarball
+        shell: bash
+        run: |
+          npm pack --pack-destination "$RUNNER_TEMP"
+          mkdir "$RUNNER_TEMP/clean" && cd "$RUNNER_TEMP/clean"
+          npm init -y > /dev/null
+          npm install "$RUNNER_TEMP"/getcadcraft-mcp-*.tgz
+          node "$GITHUB_WORKSPACE/test/smoke.mjs" --bin node_modules/@getcadcraft/mcp

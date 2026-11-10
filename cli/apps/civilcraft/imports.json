@@ -1,0 +1,5 @@
+{
+ "delaunator": "/assets/vendor/delaunator/current/index.js",
+ "robust-predicates": "/assets/vendor/robust-predicates/current/index.js",
+ "proj4": "/assets/vendor/proj4/current/proj4.esm.min.js"
+}
